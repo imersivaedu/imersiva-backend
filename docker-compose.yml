@@ -1,0 +1,28 @@
+services:
+  database:
+    image: postgres:latest
+    container_name: tcc-database
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
+
+  app:
+    build: .
+    container_name: tcc-api
+    entrypoint: [ "yarn", "dev" ]
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://root:root@database:5432/root
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - database
