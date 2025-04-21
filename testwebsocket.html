@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador Multiplayer</title>
+  <style>
+    canvas {
+      border: 1px solid #aaa;
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Multiplayer 2D Test</h1>
+  <canvas id="game" width="600" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    const playerId = `player-${Math.floor(Math.random() * 10000)}`;
+    const players = {}; // Todos os jogadores
+    let myPlayer = { id: playerId, x: 300, y: 200, z: 0, rotY: 0 };
+
+    let ws;
+
+    function connectWebSocket() {
+      ws = new WebSocket('ws://localhost:3000');
+
+      ws.onopen = () => {
+        console.log('✅ Conectado ao servidor');
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'update') {
+          players[data.player.id] = data.player;
+        } else if (data.type === 'leave') {
+          delete players[data.id];
+        } else if (data.type === 'hello') {
+          console.log(data.msg);
+        }
+      };
+
+      ws.onclose = () => {
+        console.log('🔌 Desconectado. Tentando reconectar...');
+        setTimeout(connectWebSocket, 2000);
+      };
+    }
+
+    // Input
+    const keys = {};
+    window.addEventListener('keydown', e => keys[e.key] = true);
+    window.addEventListener('keyup', e => keys[e.key] = false);
+
+    function update() {
+      const speed = 2;
+      if (keys['ArrowUp']) myPlayer.y -= speed;
+      if (keys['ArrowDown']) myPlayer.y += speed;
+      if (keys['ArrowLeft']) myPlayer.x -= speed;
+      if (keys['ArrowRight']) myPlayer.x += speed;
+
+      players[myPlayer.id] = myPlayer;
+
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(myPlayer));
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      Object.values(players).forEach(player => {
+        ctx.fillStyle = player.id === playerId ? 'blue' : 'green';
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'black';
+        ctx.font = '10px sans-serif';
+        ctx.fillText(player.id, player.x - 20, player.y - 15);
+      });
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    connectWebSocket();
+    loop();
+  </script>
+</body>
+</html>
