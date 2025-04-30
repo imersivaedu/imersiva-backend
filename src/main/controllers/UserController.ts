@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
 import { createUserService } from '../factories/user/makeCreateUserService'
-// import { template } from '../../infra/email/template'
-// import nodemailer from 'nodemailer'
 import { NotFoundError } from '../../app/errors/NotFoundError'
 import { loadUserByIdService } from '../factories/user/makeLoadUserByIdService'
 import Joi from 'joi'
@@ -11,9 +9,8 @@ export class UserController {
     const { name, email, password } = req.body
     const schema = Joi.object({
       name: Joi.string().required(),
-      email: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required(),
-      // host: Joi.string().required()
     })
 
     const validation = schema.validate(req.body)
@@ -23,23 +20,6 @@ export class UserController {
     }
 
     const user = await createUserService.execute({ name, email, password })
-
-    // const transporter = nodemailer.createTransport({
-    //   service: process.env.SMTP_SERVICE,
-    //   auth: {
-    //     user: process.env.SMTP_USERNAME,
-    //     pass: process.env.SMTP_PASSWORD
-    //   }
-    // })
-
-    // const mailOptions = {
-    //   from: process.env.SMTP_USERNAME,
-    //   to: user.email,
-    //   subject: 'Link de acesso ao Edler',
-    //   html: template(host, user.id, user.name)
-    // }
-
-    // await transporter.sendMail(mailOptions)
 
     return res.json(user)
   }

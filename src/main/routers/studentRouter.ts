@@ -12,4 +12,4 @@ studentRouter.get('/details/:id', wrapAsync(studentController.getById));
 studentRouter.post('/import', uploader.single('file'), wrapAsync(studentController.create));
 studentRouter.delete('/:id', wrapAsync(studentController.delete));
 
-export { studentRouter };
+export { studentRouter };     

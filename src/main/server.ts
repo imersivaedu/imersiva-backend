@@ -1,4 +1,3 @@
-// server.ts
 import http from 'http';
 import { app } from './app'; // << importar o app configurado com rotas
 import { setupWebSocket } from '../infra/websocket/serverSocket';

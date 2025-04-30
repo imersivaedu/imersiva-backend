@@ -1,9 +1,7 @@
-// import { hash } from 'bcrypt'
+import { hash } from 'bcryptjs'
 
-async function encryptPassword (password: string): Promise<string> {
-  const hashPassword = '123123'
-  // const hashPassword = await hash(password, 10)
-
+async function encryptPassword(password: string): Promise<string> {
+  const hashPassword = await hash(password, 10)
   return hashPassword
 }
 

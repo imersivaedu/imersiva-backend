@@ -8,12 +8,12 @@ import { connection } from './connection'
 
 export class PrismaUserRepository implements CreateUserRepository, LoadUserByIdRepository, AuthUserRepository {
   async create ({ name, email, password }: CreateUserRepositoryParams): Promise<CreateUserRepositoryResponse> {
-    const userAlreadyExists = await connection.user.findFirst({ where: { email, name } })
+    const userAlreadyExists = await connection.user.findFirst({ where: { email } })
     if (userAlreadyExists) throw new AlreadyExistsError('user')
 
     const createdUser = await connection.user.create({ data: { name, email, password } })
 
-    return createdUser
+    return {id: createdUser.id, name: createdUser.name, email: createdUser.email}
   }
 
   async getById (id: string): Promise<User | null> {
