@@ -1,0 +1,341 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "TCC",
+      "contact": {
+        "email": "anagabrieladev@gmail.com"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local API"
+      }
+    ],
+    "paths": {
+      "/student/{classId}": {
+        "get": {
+          "summary": "Find students by class ID",
+          "tags": ["Students"],
+          "parameters": [
+            {
+              "name": "classId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Class ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ArrayOfStudents"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/student/{id}": {
+        "delete": {
+          "summary": "Delete a student",
+          "tags": ["Students"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Student ID"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "error": "can't delete a student with results"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/student/import": {
+        "post": {
+          "summary": "Import students and classes via CSV",
+          "tags": ["Students"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "file": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/class/{schoolId}": {
+        "get": {
+          "summary": "Get all classes by school ID",
+          "tags": ["Class"],
+          "parameters": [
+            {
+              "name": "schoolId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "School ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Class"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/school/{cityId}": {
+        "get": {
+          "summary": "Get all schools by city ID",
+          "tags": ["School"],
+          "parameters": [
+            {
+              "name": "cityId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "City ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/School"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user": {
+        "post": {
+          "summary": "Create a new user",
+          "tags": ["User"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "Ana",
+                    "email": "ana@email.com"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/user/{id}": {
+        "get": {
+          "summary": "Get user by ID",
+          "tags": ["User"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "User ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/city/byUserId": {
+        "get": {
+          "summary": "Get city info by user ID",
+          "tags": ["City"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "User ID"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/City"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Student": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "cityId": {
+              "type": "string"
+            },
+            "classId": {
+              "type": "string"
+            }
+          }
+        },
+        "ArrayOfStudents": {
+          "type": "object",
+          "properties": {
+            "student": {
+              "$ref": "#/components/schemas/Student"
+            }
+          }
+        },
+        "Class": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "schoolId": {
+              "type": "string"
+            }
+          }
+        },
+        "School": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "City": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "host": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+  

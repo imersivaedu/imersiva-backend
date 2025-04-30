@@ -19,6 +19,11 @@ app.use('/user', userRouter)
 // app.use('/auth', authRouter)/
 app.use('/class', classRouter)
 app.use('/city', cityRouter)
+import swaggerUi from 'swagger-ui-express';
+const swaggerDocument = require('../infra/docs/swagger-api.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(asyncErrors as any)
 
 export {app}
