@@ -329,9 +329,6 @@
             },
             "email": {
               "type": "string"
-            },
-            "host": {
-              "type": "string"
             }
           }
         }
