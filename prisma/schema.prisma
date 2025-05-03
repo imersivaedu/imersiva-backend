@@ -19,6 +19,7 @@ model User {
   City City[]
 
   @@map("users")
+  Experience Experience[]
 }
 
 model Student {
@@ -27,9 +28,11 @@ model Student {
   classId          String
   createdAt        DateTime? @default(now())
   Class            Class     @relation(fields: [classId], references: [id])
+  experiences      ExperienceStudent[]
 
   @@map("students")
 }
+
 
 model School {
   id              String  @id @default(uuid())
@@ -65,4 +68,29 @@ model Class {
   Student Student[]
 
   @@map("classes")
+}
+
+model Experience {
+  id        String    @id @default(uuid())
+  userId    String
+  pin  String
+  joinCode  String?
+  enterDate DateTime?
+
+  user      User      @relation(fields: [userId], references: [id])
+  students  ExperienceStudent[]
+
+  @@map("experiences")
+}
+
+model ExperienceStudent {
+  id           String   @id @default(uuid())
+  experienceId String
+  studentId    String
+
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  student      Student    @relation(fields: [studentId], references: [id])
+
+  @@unique([experienceId, studentId])
+  @@map("experience_students")
 }

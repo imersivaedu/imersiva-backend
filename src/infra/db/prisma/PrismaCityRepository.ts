@@ -54,7 +54,7 @@ export class PrismaCityRepository implements CreateCityRepository, LoadCityByIdR
       }
     })
 
-    return data.map(city => ({
+    return data.map((city: any) => ({
       id: city.id,
       name: city.name,
       userId: city.userId

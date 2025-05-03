@@ -1,7 +1,7 @@
 import express from "express";
 import { setupWebSocket } from "../infra/websocket/serverSocket";
 import  http from 'http';
-import { cityRouter, classRouter, schoolRouter, studentRouter, userRouter, authRouter } from "./routers";
+import { cityRouter, classRouter, schoolRouter, studentRouter, userRouter, authRouter, experienceRouter } from "./routers";
 import { asyncErrors } from './middlewares/asyncErrors'
 
 const app = express();
@@ -19,6 +19,7 @@ app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/class', classRouter)
 app.use('/city', cityRouter)
+app.use('/experience', experienceRouter)
 import swaggerUi from 'swagger-ui-express';
 const swaggerDocument = require('../infra/docs/swagger-api.json');
 

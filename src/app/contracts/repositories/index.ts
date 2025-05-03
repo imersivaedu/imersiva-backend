@@ -19,3 +19,5 @@ export * from './student/GetStudentByIdRepository'
 export * from './student/ListStudentsRepository'
 export * from './student/ListStudentsWithResultByClassIdRepository'
 
+export * from './experience/CreateExperienceRepository';
+export * from './experience/EnterExperienceRepository';

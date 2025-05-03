@@ -1,0 +1,11 @@
+import { Router } from 'express'
+import { ExperienceController } from '../controllers/ExperienceController'
+import { wrapAsync } from '../../shared/utils/wrapAsync';
+
+const experienceController = new ExperienceController()
+const experienceRouter = Router()
+
+experienceRouter.post('/', wrapAsync(experienceController.create))
+experienceRouter.patch('/enter', wrapAsync(experienceController.enter));
+
+export { experienceRouter }
