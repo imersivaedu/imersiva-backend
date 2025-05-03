@@ -4,7 +4,7 @@ import { connection } from './connection'
 
 export class PrismaExperienceRepository implements CreateExperienceRepository, EnterExperienceRepository {
   async create ({ userId, studentIds }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
-    const userAlreadyExists = await connection.user.findFirst({ where: { id: userId } })
+    const userAlreadyExists = await connection.user.findFirst({ where: { id: userId }})
 
     if (!userAlreadyExists) return null
     const pin = generateRandomPIN();
@@ -25,9 +25,10 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
       studentIds
     }
   }
-  async enter({pin, joinCode}: EnterExperienceRepositoryParams): Promise<EnterExperienceRepositoryResponse | null> {
-    const experience = await connection.experience.findFirst({where: {pin: pin}});
+  async enter({pin, joinCode, studentId}: EnterExperienceRepositoryParams): Promise<EnterExperienceRepositoryResponse | null> {
+    const experience = await connection.experience.findFirst({where: {pin: pin}, include: {students: true}});
     if (experience != null) {
+      if (!experience.students.find((st) => st.studentId == studentId)) return null;
       if (experience.joinCode == null) {
         await connection.experience.update({where: {id: experience.id}, data: {
           joinCode: joinCode

@@ -13,9 +13,9 @@ export class EnterExperienceService implements EnterExperience {
     private readonly EnterExperienceRepository: EnterExperienceRepository
   ) {}
 
-  async execute({ pin, joinCode }: EnterExperienceParams): Promise<EnterExperienceResponse | null> {
+  async execute({ pin, joinCode, studentId }: EnterExperienceParams): Promise<EnterExperienceResponse | null> {
     const code = await this.EnterExperienceRepository.enter({
-      pin, joinCode
+      pin, joinCode, studentId
     });
 
     return code ?? null
