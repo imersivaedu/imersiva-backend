@@ -11,3 +11,7 @@ export * from './students/ListAllStudentsService'
 export * from './students/ListStudentsService'
 export * from './students/LoadStudentByIdService'
 export * from './students/RegisterStudentByCsvService'
+
+export * from './experiences/CreateExperienceService'
+export * from './experiences/EnterExperienceService'
+export * from './experiences/GetExperienceService'

@@ -21,3 +21,4 @@ export * from './student/ListStudentsWithResultByClassIdRepository'
 
 export * from './experience/CreateExperienceRepository';
 export * from './experience/EnterExperienceRepository';
+export * from './experience/GetExperienceRepository';
