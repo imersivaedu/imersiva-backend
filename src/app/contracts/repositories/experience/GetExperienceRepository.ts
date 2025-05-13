@@ -16,7 +16,7 @@ export interface GetExperienceRepositoryResponse {
     classId: string;
     createdAt: Date | null;  // Ajuste aqui para ser 'Date | null'
   }[];
-}
+};
 
 
 
