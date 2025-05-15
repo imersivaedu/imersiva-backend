@@ -44,7 +44,7 @@ export class ExperienceController {
   }
   
   async get(req: Request, res: Response): Promise<Response> {
-    const {pin} = req.body;
+    const pin = req.query.pin as string;
     const experience = await getExperienceService.execute({pin});
     return res.json(experience);
   }
