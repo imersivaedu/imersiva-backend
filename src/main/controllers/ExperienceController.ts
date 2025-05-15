@@ -3,6 +3,7 @@ import Joi from 'joi'
 import { RequiredFieldsIsNotProvided } from '../../shared/errors/RequiredFieldsIsNotProvided'
 import { createExperienceService } from '../factories/experiences/makeCreateExperienceService'
 import { enterExperienceService } from '../factories/experiences/makeEnterExperienceService'
+import { getExperienceService } from '../factories/experiences/makeGetExperienceService'
 
 export interface reqInterface {
   name: string
@@ -37,12 +38,14 @@ export class ExperienceController {
   }
 
   async enter(req: Request, res: Response): Promise<Response> {
-    const {pin, joinCode} = req.body;
-    const code = await enterExperienceService.execute({pin, joinCode})
+    const {pin, joinCode, studentId} = req.body;
+    const code = await enterExperienceService.execute({pin, joinCode, studentId})
     return res.json(code)
   }
-
-  // async delete(req: Request, res: Response): Promise<Response> {
-  //   return res.status(204).send()
-  // }
+  
+  async get(req: Request, res: Response): Promise<Response> {
+    const {pin} = req.body;
+    const experience = await getExperienceService.execute({pin});
+    return res.json(experience);
+  }
 }

@@ -1,6 +1,7 @@
 export interface EnterExperienceParams {
   pin: string
   joinCode: string
+  studentId: string
 }
 
 export interface EnterExperienceResponse {
@@ -8,5 +9,5 @@ export interface EnterExperienceResponse {
 }
 
 export interface EnterExperience {
-  execute: ({ pin, joinCode }: EnterExperienceParams) => Promise<EnterExperienceResponse | null>
+  execute: ({ pin, joinCode, studentId }: EnterExperienceParams) => Promise<EnterExperienceResponse | null>
 }

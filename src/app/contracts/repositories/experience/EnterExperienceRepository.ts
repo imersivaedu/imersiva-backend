@@ -1,6 +1,7 @@
 export interface EnterExperienceRepositoryParams {
   pin: string
   joinCode?: string
+  studentId: string
 }
 
 export interface EnterExperienceRepositoryResponse {

@@ -7,5 +7,6 @@ const experienceRouter = Router()
 
 experienceRouter.post('/', wrapAsync(experienceController.create))
 experienceRouter.patch('/enter', wrapAsync(experienceController.enter));
+experienceRouter.get('/getOne', wrapAsync(experienceController.get));
 
 export { experienceRouter }
