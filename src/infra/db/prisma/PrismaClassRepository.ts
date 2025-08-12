@@ -8,7 +8,8 @@ export class PrismaClassRepository implements CreateClassRepository, GetClassByI
   async create ({ name, grade, schoolId }: CreateClassRepositoryParams): Promise<CreateClassRepositoryResponse> {
     console.log("classAlreadyExists",  Grade[grade])
     const classAlreadyExists = await connection.class.findFirst({ where: { AND: [{ name, schoolId, grade }, { name, grade }] }, include: { School: true } })
-
+    if(classAlreadyExists) return classAlreadyExists
+    
     const newClass = await connection.class.create({
       data: {
         name,
