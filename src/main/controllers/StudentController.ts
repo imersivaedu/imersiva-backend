@@ -20,11 +20,10 @@ export interface reqInterface {
 export class StudentController {
   async create (req: Request, res: Response): Promise<any> {
     if (!req.file) return res.status(400).send('csv is required')
-    const { userid } = req.headers
-
+    const userid = (req as any).userId; 
+    console.log(userid)
+    
     try {
-      if (!userid) throw new UnauthorizedError()
-
       await registerStudentByCsvService.execute({
         csv: {
           fileName: req.file.originalname,

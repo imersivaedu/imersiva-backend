@@ -22,7 +22,7 @@ export class AuthUserService implements AuthUser {
 
     const token = sign(payload, secretKey, {
       subject: user.getId(),
-      expiresIn: '90d'
+      expiresIn: '700d'
     })
 
     return {

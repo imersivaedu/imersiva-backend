@@ -19,6 +19,7 @@ app.use('/user', userRouter)
 app.use('/auth', authRouter)
 app.use('/class', classRouter)
 app.use('/city', cityRouter)
+app.use('/auth', authRouter)
 app.use('/experience', experienceRouter)
 import swaggerUi from 'swagger-ui-express';
 const swaggerDocument = require('../infra/docs/swagger-api.json');

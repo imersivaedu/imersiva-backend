@@ -1,6 +1,6 @@
 export class UnauthorizedError extends Error {
-  constructor () {
-    super('Unauthorized action')
+  constructor (field: string) {
+    super(`Unauthorized action: ${field}`)
     super.name = 'UnauthorizedError'
   }
 }
