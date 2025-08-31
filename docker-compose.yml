@@ -26,3 +26,21 @@ services:
       - /app/node_modules
     depends_on:
       - database
+      - microservice-ai
+      - microservice-websocket
+
+  microservice-ai:
+    build: ../ms-imersiva-ai
+    container_name: microservice-ai
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../ms-imersiva-ai:/app
+
+  microservice-websocket:
+    build: ../ms-imersiva-websocket
+    container_name: microservice-websocket
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../ms-imersiva-websocket:/app
