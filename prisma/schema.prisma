@@ -17,9 +17,10 @@ model User {
   updatedAt DateTime @updatedAt
 
   City City[]
+  Experience Experience[]
+  School School[]
 
   @@map("users")
-  Experience Experience[]
 }
 
 model Student {
@@ -38,9 +39,10 @@ model School {
   id              String  @id @default(uuid())
   name            String
   cityId          String
+  userId          String?
 
   City City @relation(fields: [cityId], references: [id])
-
+  User User? @relation(fields: [userId], references: [id])
   Class Class[]
 
   @@map("schools")
@@ -72,6 +74,7 @@ model Class {
 
 model Experience {
   id        String    @id @default(uuid())
+  name      String?
   userId    String
   pin  String
   joinCode  String?

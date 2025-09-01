@@ -1,13 +1,17 @@
 export interface CreateExperienceRepositoryParams {
-  userId: string
-  studentIds: string[]
+  userId: string;
+  classId: string;
+  name: string;
 }
 
 export interface CreateExperienceRepositoryResponse {
-  userId: string
-  studentIds: string[]
+  userId: string;
+  name?: string;
+  pin: string;
 }
 
 export interface CreateExperienceRepository {
-  create: (params: CreateExperienceRepositoryParams) => Promise<CreateExperienceRepositoryResponse | null>
+  create: (
+    params: CreateExperienceRepositoryParams
+  ) => Promise<CreateExperienceRepositoryResponse | null>;
 }
