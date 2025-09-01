@@ -17,7 +17,6 @@ export interface reqInterface {
 
 export class ExperienceController {
   async create(req: Request, res: Response): Promise<any> {
-    console.log("asdasdasdasd");
     const userId = (req as any).userId;
     const { name, classId } = req.body;
 
