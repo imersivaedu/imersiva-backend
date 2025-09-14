@@ -64,6 +64,7 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
       return {
         id: experience.id,
         userId: experience.userId,
+        name: experience.name,
         pin: experience.pin,
         joinCode: experience.joinCode,
         enterDate: experience.enterDate,
