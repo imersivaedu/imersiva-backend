@@ -1,7 +1,7 @@
-import { Experience } from "../../../../domain/models"
+import { Experience } from "../../../../domain/models";
 
 export interface GetExperienceRepositoryParams {
-  pin: string
+  pin: string;
 }
 
 export interface GetExperienceRepositoryResponse {
@@ -15,12 +15,12 @@ export interface GetExperienceRepositoryResponse {
     id: string;
     name: string;
     classId: string;
-    createdAt: Date | null;  // Ajuste aqui para ser 'Date | null'
+    createdAt: Date | null; // Ajuste aqui para ser 'Date | null'
   }[];
-};
-
-
+}
 
 export interface GetExperienceRepository {
-  get: (params: GetExperienceRepositoryParams) => Promise<GetExperienceRepositoryResponse | null>
+  get: (
+    params: GetExperienceRepositoryParams
+  ) => Promise<GetExperienceRepositoryResponse | null>;
 }

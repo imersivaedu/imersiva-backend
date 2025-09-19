@@ -19,7 +19,7 @@ const server = http.createServer(app);
 // Configure CORS to allow requests from frontend
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [/^http:\/\/localhost:\d+$/], // to permitindo todas as portas de localhost
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

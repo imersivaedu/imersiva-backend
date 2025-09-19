@@ -39,10 +39,10 @@ model School {
   id              String  @id @default(uuid())
   name            String
   cityId          String
-  userId          String?
+  userId          String
 
   City City @relation(fields: [cityId], references: [id])
-  User User? @relation(fields: [userId], references: [id])
+  User User @relation(fields: [userId], references: [id])
   Class Class[]
 
   @@map("schools")
