@@ -3,7 +3,7 @@ import { getCitiesByUserIdService } from '../factories/cities/makeLoadCitiesByUs
 
 export class CityController {
   async getByUserId (req: Request, res: Response): Promise<Response> {
-    const { userid } = req.headers
+    const userid = (req as any).userId; 
 
     const cities = await getCitiesByUserIdService.execute(userid as string)
 
