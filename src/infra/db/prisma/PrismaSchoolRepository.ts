@@ -18,9 +18,9 @@ export class PrismaSchoolRepository implements CreateSchoolRepository, GetSchool
 
    const createdSchool = await connection.school.create({
     data: {
-    name,
-    cityId,
-    userId 
+      name,
+      cityId,
+      userId 
     }
 })
 
