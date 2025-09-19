@@ -7,7 +7,7 @@ export interface GetExperienceParams {
 export interface GetExperienceResponse {
   id: string;
   userId: string;
-  name: string | null;
+  name: string;
   pin: string;
   joinCode: string | null;
   enterDate: Date | null;
@@ -18,8 +18,6 @@ export interface GetExperienceResponse {
     createdAt: Date | null;
   }[];
 }
-
-
 
 export interface GetExperience {
   execute: ({ pin }: GetExperienceParams) => Promise<GetExperienceResponse | null>

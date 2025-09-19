@@ -7,6 +7,7 @@ export interface GetExperienceRepositoryParams {
 export interface GetExperienceRepositoryResponse {
   id: string;
   userId: string;
+  name: string;
   pin: string;
   joinCode: string | null;
   enterDate: Date | null;

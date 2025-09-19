@@ -37,7 +37,7 @@ export class RegisterStudentByCsvService implements RegisterStudentByCsv {
       const createdSchool = await this.createSchoolRepository.create({
         name: student['nome da escola'],
         cityId: createdCity.id,
-        userId: 'test'
+        userId
       })
 
       const createdClass = await this.createClassRepository.create({

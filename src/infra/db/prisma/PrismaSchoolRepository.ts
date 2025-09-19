@@ -12,22 +12,8 @@ import { NotFoundError } from "../../../app/errors/NotFoundError";
 import { School } from "../../../domain/models";
 import { connection } from "./connection";
 
-<<<<<<< HEAD
 export class PrismaSchoolRepository implements CreateSchoolRepository, GetSchoolByIdRepository, GetSchoolByCityIdRepository, GetSchoolWithClassesRepository {
   async create ({ name, cityId, userId }: CreateSchoolRepositoryParams): Promise<CreateSchoolRepositoryResponse> {
-=======
-export class PrismaSchoolRepository
-  implements
-    CreateSchoolRepository,
-    GetSchoolByIdRepository,
-    GetSchoolByCityIdRepository,
-    GetSchoolWithClassesRepository
-{
-  async create({
-    name,
-    cityId,
-  }: CreateSchoolRepositoryParams): Promise<CreateSchoolRepositoryResponse> {
->>>>>>> 2562fd44f31d06e7f5de39b893355edd903161dd
     const schoolAlreadyExists = await connection.school.findFirst({
       where: {
         AND: [{ name, cityId }, { name }],
@@ -36,7 +22,6 @@ export class PrismaSchoolRepository
 
     if (schoolAlreadyExists) return schoolAlreadyExists;
 
-<<<<<<< HEAD
    const createdSchool = await connection.school.create({
     data: {
       name,
@@ -44,15 +29,6 @@ export class PrismaSchoolRepository
       userId 
     }
 })
-
-=======
-    const createdSchool = await connection.school.create({
-      data: {
-        name,
-        cityId,
-      },
-    });
->>>>>>> 2562fd44f31d06e7f5de39b893355edd903161dd
 
     return createdSchool;
   }

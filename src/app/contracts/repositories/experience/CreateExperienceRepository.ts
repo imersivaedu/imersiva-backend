@@ -6,7 +6,7 @@ export interface CreateExperienceRepositoryParams {
 
 export interface CreateExperienceRepositoryResponse {
   userId: string;
-  name?: string;
+  name: string;
   pin: string;
 }
 
