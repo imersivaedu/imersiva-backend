@@ -30,17 +30,17 @@ services:
       - microservice-websocket
 
   microservice-ai:
-    build: ../ms-imersiva-ai
+    build: ../imersiva-ms-ai
     container_name: microservice-ai
     ports:
       - "8000:8000"
     volumes:
-      - ../ms-imersiva-ai:/app
+      - ../imersiva-ms-ai:/app
 
   microservice-websocket:
-    build: ../ms-imersiva-websocket
+    build: ../imersiva-ms-websocket
     container_name: microservice-websocket
     ports:
       - "3001:3001"
     volumes:
-      - ../ms-imersiva-websocket:/app
+      - ../imersiva-ms-websocket:/app
