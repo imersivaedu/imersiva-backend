@@ -43,7 +43,6 @@ export function setupWebSocket(server: Server) {
         wsToIdMap.delete(ws);
         console.log(`Jogador ${id} desconectado`);
 
-        // Notifica os outros que esse jogador saiu
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({ type: 'leave', id }));

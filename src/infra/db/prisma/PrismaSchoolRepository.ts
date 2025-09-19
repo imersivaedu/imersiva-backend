@@ -4,7 +4,7 @@ import { School } from '../../../domain/models'
 import { connection } from './connection'
 
 export class PrismaSchoolRepository implements CreateSchoolRepository, GetSchoolByIdRepository, GetSchoolByCityIdRepository, GetSchoolWithClassesRepository {
-  async create ({ name, cityId }: CreateSchoolRepositoryParams): Promise<CreateSchoolRepositoryResponse> {
+  async create ({ name, cityId, userId }: CreateSchoolRepositoryParams): Promise<CreateSchoolRepositoryResponse> {
     const schoolAlreadyExists = await connection.school.findFirst({
       where: {
         AND: [
@@ -16,12 +16,14 @@ export class PrismaSchoolRepository implements CreateSchoolRepository, GetSchool
 
     if (schoolAlreadyExists) return schoolAlreadyExists
 
-    const createdSchool = await connection.school.create({
-      data: {
-        name,
-        cityId
-      }
-    })
+   const createdSchool = await connection.school.create({
+    data: {
+    name,
+    cityId,
+    userId 
+    }
+})
+
 
     return createdSchool
   }

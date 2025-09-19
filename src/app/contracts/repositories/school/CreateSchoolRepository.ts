@@ -2,6 +2,7 @@ export interface CreateSchoolRepositoryParams {
   id?: string
   name: string
   cityId: string
+  userId: string
 }
 
 export interface CreateSchoolRepositoryResponse {
