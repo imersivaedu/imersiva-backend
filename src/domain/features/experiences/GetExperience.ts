@@ -7,6 +7,7 @@ export interface GetExperienceParams {
 export interface GetExperienceResponse {
   id: string;
   userId: string;
+  name: string | null;
   pin: string;
   joinCode: string | null;
   enterDate: Date | null;
