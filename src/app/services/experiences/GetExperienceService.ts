@@ -1,5 +1,3 @@
-// app/services/experiences/GetExperienceService.ts
-
 import {
   GetExperienceParams,
   GetExperience,

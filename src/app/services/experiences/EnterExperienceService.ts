@@ -1,5 +1,3 @@
-// app/services/experiences/EnterExperienceService.ts
-
 import {
   EnterExperienceParams,
   EnterExperience,

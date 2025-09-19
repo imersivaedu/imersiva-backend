@@ -1,5 +1,3 @@
-// domain/models/Experience.ts
-
 import { randomUUID } from 'crypto'
 
 export interface ExperienceParams {
