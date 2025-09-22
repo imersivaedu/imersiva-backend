@@ -32,7 +32,7 @@ export class StudentController {
         userId: userid as string
       })
 
-      return res.send()
+      return res.status(200).json({ message: 'Students successfully registered from CSV' });
     } catch (error: any) {
       return res.status(400).send(error.message)
     }
