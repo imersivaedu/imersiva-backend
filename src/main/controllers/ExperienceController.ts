@@ -18,11 +18,11 @@ export interface reqInterface {
 export class ExperienceController {
   async create(req: Request, res: Response): Promise<any> {
     const userId = (req as any).userId;
-    const { name, classId } = req.body;
+    const { classId, templateId } = req.body;
 
     const schema = Joi.object({
       classId: Joi.string().required(),
-      name: Joi.string().required(),
+      templateId: Joi.string().required(),
     });
 
     const validation = schema.validate(req.body);
@@ -33,8 +33,8 @@ export class ExperienceController {
 
     const experience = await createExperienceService.execute({
       userId,
-      name,
       classId,
+      templateId
     });
 
     return res.json(experience);

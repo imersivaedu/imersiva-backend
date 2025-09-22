@@ -72,16 +72,36 @@ model Class {
   @@map("classes")
 }
 
-model Experience {
-  id        String    @id @default(uuid())
-  name      String
-  userId    String
-  pin  String
-  joinCode  String?
-  enterDate DateTime?
+model Subject {
+  id          String               @id @default(uuid())
+  name        String
+  templates   ExperienceTemplate[] 
 
-  user      User      @relation(fields: [userId], references: [id])
-  students  ExperienceStudent[]
+  @@map("subjects")
+}
+
+model ExperienceTemplate {
+  id        String       @id @default(uuid())
+  name      String       
+  subjectId String
+
+  subject   Subject      @relation(fields: [subjectId], references: [id])
+  experiences Experience[]
+
+  @@map("experience_templates")
+}
+
+model Experience {
+  id               String    @id @default(uuid())
+  templateId       String
+  userId           String
+  pin              String
+  joinCode         String?
+  enterDate        DateTime?
+
+  template         ExperienceTemplate @relation(fields: [templateId], references: [id])
+  user             User               @relation(fields: [userId], references: [id])
+  students         ExperienceStudent[]
 
   @@map("experiences")
 }

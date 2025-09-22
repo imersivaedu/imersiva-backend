@@ -1,12 +1,12 @@
 export interface CreateExperienceRepositoryParams {
   userId: string;
   classId: string;
-  name: string;
+  templateId: string;
 }
 
 export interface CreateExperienceRepositoryResponse {
   userId: string;
-  name: string;
+  templateId: string;
   pin: string;
 }
 

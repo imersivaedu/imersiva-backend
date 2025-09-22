@@ -22,7 +22,7 @@ export function setupWebSocket(server: Server) {
         const state: PlayerState = JSON.parse(data.toString());
 
         players[state.id] = state;
-        wsToIdMap.set(ws, state.id); // Salva qual jogador está ligado a esse WebSocket
+        wsToIdMap.set(ws, state.id);
         console.log(' Cliente conectado');
         console.log(state)
 

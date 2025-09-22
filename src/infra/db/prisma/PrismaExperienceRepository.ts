@@ -4,7 +4,7 @@ import { generateRandomPIN } from '../../../shared/helpers/generateRandomPIN'
 import { connection } from './connection'
 
 export class PrismaExperienceRepository implements CreateExperienceRepository, EnterExperienceRepository, GetExperienceRepository {
-  async create({ userId, classId, name }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
+  async create({ userId, classId, templateId }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
     const userAlreadyExists = await connection.user.findFirst({ where: { id: userId } })
 
     const students = await connection.student.findMany({ where: { classId } })
@@ -15,7 +15,7 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
     const experience = await connection.experience.create({
       data: {
         userId,
-        name,
+        templateId,
         students: {
           create: studentIds.map(studentId => ({
             student: { connect: { id: studentId } }
@@ -27,7 +27,7 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
 
     return {
       userId: experience.userId,
-      name,
+      templateId,
       pin
     }
   }
@@ -64,7 +64,7 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
       return {
         id: experience.id,
         userId: experience.userId,
-        name: experience.name,
+        templateId: experience.templateId,
         pin: experience.pin,
         joinCode: experience.joinCode,
         enterDate: experience.enterDate,

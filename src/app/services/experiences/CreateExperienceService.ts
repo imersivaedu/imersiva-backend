@@ -13,13 +13,13 @@ export class CreateExperienceService implements CreateExperience {
 
   async execute({
     userId,
-    name,
     classId,
+    templateId
   }: CreateExperienceParams): Promise<CreateExperienceResponse | null> {
     const experience = await this.createExperienceRepository.create({
       userId,
-      name,
       classId,
+      templateId
     });
 
     return experience ?? null;
