@@ -13,5 +13,7 @@ experienceRouter.post(
 );
 experienceRouter.patch("/enter", wrapAsync(experienceController.enter));
 experienceRouter.get("/getOne", wrapAsync(experienceController.get));
+experienceRouter.patch("/update-status", wrapAsync(experienceController.updateStatus));
+
 
 export { experienceRouter };

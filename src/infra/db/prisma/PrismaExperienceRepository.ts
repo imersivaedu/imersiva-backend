@@ -1,9 +1,10 @@
 import { CreateExperienceRepository, CreateExperienceRepositoryParams, CreateExperienceRepositoryResponse, EnterExperienceRepository, EnterExperienceRepositoryParams, EnterExperienceRepositoryResponse, GetExperienceRepository } from '../../../app/contracts'
+import { UpdateExperienceStatusRepository, UpdateExperienceStatusRepositoryParams, UpdateExperienceStatusRepositoryResponse } from '../../../app/contracts/repositories/experience/UpdateExperienceStatusRepository'
 import { GetExperienceParams, GetExperienceResponse } from '../../../domain/features/experiences/GetExperience'
 import { generateRandomPIN } from '../../../shared/helpers/generateRandomPIN'
 import { connection } from './connection'
 
-export class PrismaExperienceRepository implements CreateExperienceRepository, EnterExperienceRepository, GetExperienceRepository {
+export class PrismaExperienceRepository implements CreateExperienceRepository, EnterExperienceRepository, GetExperienceRepository, UpdateExperienceStatusRepository {
   async create({ userId, classId, templateId }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
     const userAlreadyExists = await connection.user.findFirst({ where: { id: userId } })
 
@@ -80,4 +81,13 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
     return null;
   }
 
+  async update({ pin, status }: UpdateExperienceStatusRepositoryParams): Promise<UpdateExperienceStatusRepositoryResponse | null> {
+    const experience = await connection.experience.findFirst({ where: { pin } })
+    if (!experience) return null
+    const updatedExperience = await connection.experience.update({
+      where: { id: experience.id },
+      data: { status }
+    })
+    return { id: updatedExperience.id, pin: updatedExperience.pin, status: updatedExperience.status }
+  }
 }
