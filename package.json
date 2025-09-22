@@ -18,7 +18,8 @@
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --exit-child src/main/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "up": "docker-compose up"
+    "up": "docker-compose up",
+    "seed": "ts-node src/infra/db/prisma/seed.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
