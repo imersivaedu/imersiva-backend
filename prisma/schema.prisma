@@ -8,32 +8,30 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  user_type String?
-  password  String? @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  City City[]
+  id         String       @id @default(uuid())
+  name       String
+  email      String
+  user_type  String?
+  password   String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  City       City[]
   Experience Experience[]
-  School School[]
+  School     School[]
 
   @@map("users")
 }
 
 model Student {
-  id               String    @id @default(uuid())
-  name             String
-  classId          String
-  createdAt        DateTime? @default(now())
-  Class            Class     @relation(fields: [classId], references: [id])
-  experiences      ExperienceStudent[]
+  id          String              @id @default(uuid())
+  name        String
+  classId     String
+  createdAt   DateTime?           @default(now())
+  experiences ExperienceStudent[]
+  Class       Class               @relation(fields: [classId], references: [id])
 
   @@map("students")
 }
-
 
 model School {
   id              String  @id @default(uuid())
@@ -49,25 +47,22 @@ model School {
 }
 
 model City {
-  id            String  @id @default(uuid())
-  name          String
-  userId        String
-
-  User User @relation(fields: [userId], references: [id])
-
+  id     String   @id @default(uuid())
+  name   String
+  userId String
+  User   User     @relation(fields: [userId], references: [id])
   School School[]
 
   @@map("cities")
 }
 
 model Class {
-  id             String  @id @default(uuid())
-  name           String
-  schoolId       String
-  grade          Int
-
-  School  School    @relation(fields: [schoolId], references: [id])
-  Student Student[]
+  id       String    @id @default(uuid())
+  name     String
+  schoolId String
+  grade    Int
+  School   School    @relation(fields: [schoolId], references: [id])
+  Student  Student[]
 
   @@map("classes")
 }
@@ -113,10 +108,9 @@ model Experience {
   @@map("experiences")
 }
 model ExperienceStudent {
-  id           String   @id @default(uuid())
+  id           String     @id @default(uuid())
   experienceId String
   studentId    String
-
   experience   Experience @relation(fields: [experienceId], references: [id])
   student      Student    @relation(fields: [studentId], references: [id])
 

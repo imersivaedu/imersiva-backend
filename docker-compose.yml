@@ -44,3 +44,14 @@ services:
       - "3001:3001"
     volumes:
       - ../imersiva-ms-websocket:/app
+
+  frontend-app:
+    build: ../imersiva-frontend
+    container_name: imersiva-frontend
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../imersiva-frontend:/app
+      - /app/node_modules
+
