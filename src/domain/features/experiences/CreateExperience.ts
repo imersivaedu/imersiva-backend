@@ -5,9 +5,11 @@ export interface CreateExperienceParams {
 }
 
 export interface CreateExperienceResponse {
+  id: string;
   userId: string;
   templateId: string;
   pin: string;
+  status: string;
 }
 
 export interface CreateExperience {

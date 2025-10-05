@@ -1,12 +1,12 @@
 
 export interface UpdateExperienceStatusRepositoryParams {
-  pin: string;
+  experienceId: string;
   status: 'BEGINNING' | 'ONGOING' | 'ENDED';
 }
 
 export interface UpdateExperienceStatusRepositoryResponse {
   id: string;
-  pin: string;
+  experienceId: string;
   status: 'BEGINNING' | 'ONGOING' | 'ENDED';
 }
 

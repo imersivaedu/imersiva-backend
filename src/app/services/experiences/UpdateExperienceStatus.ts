@@ -12,9 +12,9 @@ export class UpdateExperienceStatusService implements UpdateExperienceStatus {
     private readonly UpdateExperienceStatusRepository: UpdateExperienceStatusRepository
   ) {}
 
-  async execute({ pin, status }: UpdateExperienceStatusParams): Promise<UpdateExperienceStatusResponse | null> {
+  async execute({ experienceId, status }: UpdateExperienceStatusParams): Promise<UpdateExperienceStatusResponse | null> {
     const experience = await this.UpdateExperienceStatusRepository.update({
-      pin,
+      experienceId,
       status
     });
 

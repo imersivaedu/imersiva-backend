@@ -44,6 +44,8 @@ services:
       - "3001:3001"
     volumes:
       - ../imersiva-ms-websocket:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   frontend-app:
     build: ../imersiva-frontend

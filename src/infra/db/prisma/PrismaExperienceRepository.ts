@@ -27,9 +27,11 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
     })
 
     return {
+      id: experience.id,
       userId: experience.userId,
       templateId,
-      pin
+      pin,
+      status: experience.status
     }
   }
   async enter({ pin, joinCode, studentId }: EnterExperienceRepositoryParams): Promise<EnterExperienceRepositoryResponse | null> {
@@ -81,13 +83,13 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
     return null;
   }
 
-  async update({ pin, status }: UpdateExperienceStatusRepositoryParams): Promise<UpdateExperienceStatusRepositoryResponse | null> {
-    const experience = await connection.experience.findFirst({ where: { pin } })
+  async update({ experienceId, status }: UpdateExperienceStatusRepositoryParams): Promise<UpdateExperienceStatusRepositoryResponse | null> {
+    const experience = await connection.experience.findFirst({ where: { id: experienceId } })
     if (!experience) return null
     const updatedExperience = await connection.experience.update({
       where: { id: experience.id },
       data: { status }
     })
-    return { id: updatedExperience.id, pin: updatedExperience.pin, status: updatedExperience.status }
+    return { id: updatedExperience.id, experienceId: updatedExperience.id, status: updatedExperience.status }
   }
 }

@@ -5,9 +5,11 @@ export interface CreateExperienceRepositoryParams {
 }
 
 export interface CreateExperienceRepositoryResponse {
+  id: string;
   userId: string;
   templateId: string;
   pin: string;
+  status: string;
 }
 
 export interface CreateExperienceRepository {

@@ -60,7 +60,7 @@ export class ExperienceController {
   async updateStatus(req: Request, res: Response): Promise<Response> {
     try {
       const schema = Joi.object({
-        pin: Joi.string().required(),
+        experienceId: Joi.string().required(),
         status: Joi.string().valid("BEGINNING", "ONGOING", "ENDED").required(),
       });
 
@@ -70,9 +70,9 @@ export class ExperienceController {
         throw new RequiredFieldsIsNotProvided(error.message);
       }
 
-      const { pin, status } = value;
+      const { experienceId, status } = value;
 
-      const experience = await updateExperience.execute({ pin, status });
+      const experience = await updateExperience.execute({ experienceId, status });
 
       return res.status(200).json({
         message: `Experience status updated to ${status}`,
