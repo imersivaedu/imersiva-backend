@@ -8,6 +8,7 @@ export interface GetExperienceRepositoryResponse {
   id: string;
   userId: string;
   templateId: string;
+  templateName: string;
   pin: string;
   joinCode: string | null;
   enterDate: Date | null;

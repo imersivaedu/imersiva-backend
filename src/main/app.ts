@@ -10,6 +10,7 @@ import {
   userRouter,
   authRouter,
   experienceRouter,
+  experienceTemplateRouter,
 } from "./routers";
 import { asyncErrors } from "./middlewares/asyncErrors";
 
@@ -40,6 +41,7 @@ app.use("/class", classRouter);
 app.use("/city", cityRouter);
 app.use("/auth", authRouter);
 app.use("/experience", experienceRouter);
+app.use("/experience-template", experienceTemplateRouter);
 import swaggerUi from "swagger-ui-express";
 const swaggerDocument = require("../infra/docs/swagger-api.json");
 

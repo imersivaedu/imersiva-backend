@@ -1,48 +1,84 @@
-import { CreateExperienceRepository, CreateExperienceRepositoryParams, CreateExperienceRepositoryResponse, EnterExperienceRepository, EnterExperienceRepositoryParams, EnterExperienceRepositoryResponse, GetExperienceRepository } from '../../../app/contracts'
-import { UpdateExperienceStatusRepository, UpdateExperienceStatusRepositoryParams, UpdateExperienceStatusRepositoryResponse } from '../../../app/contracts/repositories/experience/UpdateExperienceStatusRepository'
-import { GetExperienceParams, GetExperienceResponse } from '../../../domain/features/experiences/GetExperience'
-import { generateRandomPIN } from '../../../shared/helpers/generateRandomPIN'
-import { connection } from './connection'
+import {
+  CreateExperienceRepository,
+  CreateExperienceRepositoryParams,
+  CreateExperienceRepositoryResponse,
+  EnterExperienceRepository,
+  EnterExperienceRepositoryParams,
+  EnterExperienceRepositoryResponse,
+  GetExperienceRepository,
+} from "../../../app/contracts";
+import {
+  UpdateExperienceStatusRepository,
+  UpdateExperienceStatusRepositoryParams,
+  UpdateExperienceStatusRepositoryResponse,
+} from "../../../app/contracts/repositories/experience/UpdateExperienceStatusRepository";
+import {
+  GetExperienceParams,
+  GetExperienceResponse,
+} from "../../../domain/features/experiences/GetExperience";
+import { generateRandomPIN } from "../../../shared/helpers/generateRandomPIN";
+import { connection } from "./connection";
 
-export class PrismaExperienceRepository implements CreateExperienceRepository, EnterExperienceRepository, GetExperienceRepository, UpdateExperienceStatusRepository {
-  async create({ userId, classId, templateId }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
-    const userAlreadyExists = await connection.user.findFirst({ where: { id: userId } })
+export class PrismaExperienceRepository
+  implements
+    CreateExperienceRepository,
+    EnterExperienceRepository,
+    GetExperienceRepository,
+    UpdateExperienceStatusRepository
+{
+  async create({
+    userId,
+    classId,
+    templateId,
+  }: CreateExperienceRepositoryParams): Promise<CreateExperienceRepositoryResponse | null> {
+    const userAlreadyExists = await connection.user.findFirst({
+      where: { id: userId },
+    });
 
-    const students = await connection.student.findMany({ where: { classId } })
-    const studentIds = students.map(student => student.id)
+    const students = await connection.student.findMany({ where: { classId } });
+    const studentIds = students.map((student) => student.id);
 
-    if (!userAlreadyExists) return null
+    if (!userAlreadyExists) return null;
     const pin = generateRandomPIN();
     const experience = await connection.experience.create({
       data: {
         userId,
         templateId,
         students: {
-          create: studentIds.map(studentId => ({
-            student: { connect: { id: studentId } }
-          }))
+          create: studentIds.map((studentId) => ({
+            student: { connect: { id: studentId } },
+          })),
         },
-        pin
-      }
-    })
+        pin,
+      },
+    });
 
     return {
       id: experience.id,
       userId: experience.userId,
       templateId,
       pin,
-      status: experience.status
-    }
+      status: experience.status,
+    };
   }
-  async enter({ pin, joinCode, studentId }: EnterExperienceRepositoryParams): Promise<EnterExperienceRepositoryResponse | null> {
-    const experience = await connection.experience.findFirst({ where: { pin: pin }, include: { students: true } });
+  async enter({
+    pin,
+    joinCode,
+    studentId,
+  }: EnterExperienceRepositoryParams): Promise<EnterExperienceRepositoryResponse | null> {
+    const experience = await connection.experience.findFirst({
+      where: { pin: pin },
+      include: { students: true },
+    });
     if (experience != null) {
-      if (!experience.students.find((st) => st.studentId == studentId)) return null;
+      if (!experience.students.find((st) => st.studentId == studentId))
+        return null;
       if (experience.joinCode == null) {
         await connection.experience.update({
-          where: { id: experience.id }, data: {
-            joinCode: joinCode
-          }
+          where: { id: experience.id },
+          data: {
+            joinCode: joinCode,
+          },
         });
         return { joinCode: experience.joinCode! };
       } else {
@@ -51,16 +87,19 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
     }
     return null;
   }
-  async get({ pin }: GetExperienceParams): Promise<GetExperienceResponse | null> {
+  async get({
+    pin,
+  }: GetExperienceParams): Promise<GetExperienceResponse | null> {
     const experience = await connection.experience.findFirst({
       where: { pin: pin },
       include: {
+        template: true,
         students: {
           include: {
-            student: true
-          }
-        }
-      }
+            student: true,
+          },
+        },
+      },
     });
 
     if (experience) {
@@ -68,28 +107,38 @@ export class PrismaExperienceRepository implements CreateExperienceRepository, E
         id: experience.id,
         userId: experience.userId,
         templateId: experience.templateId,
+        templateName: experience.template.name,
         pin: experience.pin,
         joinCode: experience.joinCode,
         enterDate: experience.enterDate,
-        students: experience.students.map(item => ({
+        students: experience.students.map((item) => ({
           id: item.student.id,
           name: item.student.name,
           classId: item.student.classId,
-          createdAt: item.student.createdAt
-        }))
+          createdAt: item.student.createdAt,
+        })),
       };
     }
 
     return null;
   }
 
-  async update({ experienceId, status }: UpdateExperienceStatusRepositoryParams): Promise<UpdateExperienceStatusRepositoryResponse | null> {
-    const experience = await connection.experience.findFirst({ where: { id: experienceId } })
-    if (!experience) return null
+  async update({
+    experienceId,
+    status,
+  }: UpdateExperienceStatusRepositoryParams): Promise<UpdateExperienceStatusRepositoryResponse | null> {
+    const experience = await connection.experience.findFirst({
+      where: { id: experienceId },
+    });
+    if (!experience) return null;
     const updatedExperience = await connection.experience.update({
       where: { id: experience.id },
-      data: { status }
-    })
-    return { id: updatedExperience.id, experienceId: updatedExperience.id, status: updatedExperience.status }
+      data: { status },
+    });
+    return {
+      id: updatedExperience.id,
+      experienceId: updatedExperience.id,
+      status: updatedExperience.status,
+    };
   }
 }
