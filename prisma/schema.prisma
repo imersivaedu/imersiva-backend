@@ -34,13 +34,13 @@ model Student {
 }
 
 model School {
-  id              String  @id @default(uuid())
-  name            String
-  cityId          String
-  userId          String
+  id     String @id @default(uuid())
+  name   String
+  cityId String
+  userId String
 
-  City City @relation(fields: [cityId], references: [id])
-  User User @relation(fields: [userId], references: [id])
+  City  City    @relation(fields: [cityId], references: [id])
+  User  User    @relation(fields: [userId], references: [id])
   Class Class[]
 
   @@map("schools")
@@ -68,19 +68,20 @@ model Class {
 }
 
 model Subject {
-  id          String               @id @default(uuid())
-  name        String
-  templates   ExperienceTemplate[] 
+  id        String               @id @default(uuid())
+  name      String
+  templates ExperienceTemplate[]
 
   @@map("subjects")
 }
 
 model ExperienceTemplate {
-  id        String       @id @default(uuid())
-  name      String       
-  subjectId String
-
-  subject   Subject      @relation(fields: [subjectId], references: [id])
+  id          String       @id @default(uuid())
+  name        String
+  subjectId   String
+  description String 
+  ImageUrl    String 
+  subject     Subject      @relation(fields: [subjectId], references: [id])
   experiences Experience[]
 
   @@map("experience_templates")
@@ -93,26 +94,29 @@ enum ExperienceStatus {
 }
 
 model Experience {
-  id               String          @id @default(uuid())
-  templateId       String
-  userId           String
-  pin              String
-  joinCode         String?
-  enterDate        DateTime?
-  status           ExperienceStatus @default(BEGINNING)
+  id         String           @id @default(uuid())
+  templateId String
+  userId     String
+  pin        String
+  joinCode   String?
+  enterDate  DateTime?
+  status     ExperienceStatus @default(BEGINNING)
 
-  template         ExperienceTemplate @relation(fields: [templateId], references: [id])
-  user             User               @relation(fields: [userId], references: [id])
-  students         ExperienceStudent[]
+  template ExperienceTemplate  @relation(fields: [templateId], references: [id])
+  user     User                @relation(fields: [userId], references: [id])
+  students ExperienceStudent[]
 
   @@map("experiences")
 }
+
 model ExperienceStudent {
-  id           String     @id @default(uuid())
+  id           String @id @default(uuid())
   experienceId String
   studentId    String
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  student      Student    @relation(fields: [studentId], references: [id])
+  result       Int?
+
+  experience Experience @relation(fields: [experienceId], references: [id])
+  student    Student    @relation(fields: [studentId], references: [id])
 
   @@unique([experienceId, studentId])
   @@map("experience_students")

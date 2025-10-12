@@ -6,3 +6,4 @@ export * from "./userRouter";
 export * from "./authRouter";
 export * from "./experienceRouter";
 export * from "./experienceTemplateRouter";
+export * from "./experienceStudentRouter";
