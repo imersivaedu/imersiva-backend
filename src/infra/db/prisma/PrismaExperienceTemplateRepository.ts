@@ -17,6 +17,8 @@ export class PrismaExperienceTemplateRepository
         id: template.id,
         name: template.name,
         subjectId: template.subjectId,
+        description: template.description,
+        imageUrl: template.ImageUrl,
       });
     });
   }

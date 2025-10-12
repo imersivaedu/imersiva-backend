@@ -17,6 +17,8 @@ export class ListExperienceTemplatesService implements ListExperienceTemplates {
       id: template.getId(),
       name: template.getName(),
       subjectId: template.getSubjectId(),
+      description: template.getDescription(),
+      imageUrl: template.getImageUrl(),
     }));
   }
 }
