@@ -19,6 +19,7 @@
     "dev": "ts-node-dev --respawn --exit-child src/main/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "up": "docker-compose up",
+    "migrate:dev": "prisma migrate dev --name init",
     "seed": "ts-node src/infra/db/prisma/seed.ts"
   },
   "devDependencies": {

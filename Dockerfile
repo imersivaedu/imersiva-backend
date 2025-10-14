@@ -11,6 +11,5 @@ RUN yarn build
 
 EXPOSE ${PORT}
 
-ENTRYPOINT [ "yarn", "dev" ]
-
+ENTRYPOINT ["sh", "-c", "yarn migrate:dev && yarn dev"]
 
